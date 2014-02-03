@@ -5,9 +5,10 @@ namespace :postgres do
       db_username, db_password, db_name = ENV['DB_USERNAME'], ENV['DB_PASSWORD'], ENV['DB_NAME']
 
       execute :sudo, "-u postgres psql -c \"CREATE USER #{db_username} WITH PASSWORD '#{db_password}';\""
+      execute :sudo, "-u postgres psql -c \"ALTER USER #{db_username} WITH SUPERUSER;\""
       execute :sudo, "-u postgres psql -c \"CREATE DATABASE #{db_name} WITH ENCODING 'UTF8';\""
 
-      execute :sudo, "-u postgres psql -c \"GRANT ALL PRIVILEGES ON DATABASE #{db_name} to #{db_username};\""
+      execute :sudo, "-u postgres psql -c \"GRANT ALL PRIVILEGES ON DATABASE #{db_name} TO #{db_username};\""
       execute :sudo, "-u postgres psql -c \"ALTER DATABASE #{db_name} OWNER TO #{db_username};\""
     end
   end
